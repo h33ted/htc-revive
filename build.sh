@@ -10,8 +10,13 @@ ANDROID_JAR="$TOOLS/android-17.jar"
 bash tools/gen-certs.sh
 rm -rf build && mkdir -p build/classes build/dex build/res build/stubs
 "$AAPT2" compile --dir res -o build/res/res.zip
+# CI passes VERSION_CODE/VERSION_NAME so each release installs as an upgrade.
+VERSION_ARGS=()
+[ -n "${VERSION_CODE:-}${VERSION_NAME:-}" ] && VERSION_ARGS+=(--replace-version)
+[ -n "${VERSION_CODE:-}" ] && VERSION_ARGS+=(--version-code "$VERSION_CODE")
+[ -n "${VERSION_NAME:-}" ] && VERSION_ARGS+=(--version-name "$VERSION_NAME")
 "$AAPT2" link -o build/base.apk --manifest AndroidManifest.xml -I "$ANDROID_JAR" -A assets \
-    --min-sdk-version 17 --target-sdk-version 17 build/res/res.zip
+    --min-sdk-version 17 --target-sdk-version 17 ${VERSION_ARGS[@]+"${VERSION_ARGS[@]}"} build/res/res.zip
 # HTC Sense widgets live in the ROM (HTCCommonctrl.jar on the boot classpath), so compile
 # against signature stubs that stay out of the dex.
 javac -source 8 -target 8 -Xlint:-options -encoding UTF-8 -bootclasspath "$ANDROID_JAR" \

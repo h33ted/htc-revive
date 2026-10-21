@@ -2,8 +2,12 @@
 
 # HTC Revive
 
-Brings the dead online features of the **HTC One M7 (Sense 5, Android 4.2.2)** back to life,
-entirely on the phone. No PC, proxy server or API key needed.
+Brings the dead online features of **HTC Sense 5** phones back to life, entirely on the
+phone. No PC, proxy server or API key needed.
+
+> **Tested only on an HTC One M7 (Sense 5, Android 4.2.2).** Other Sense 5 devices (One mini,
+> One max, Butterfly s, ...) ship the same Weather, BlinkFeed and Stocks apps and should work,
+> but haven't been tried. Reports welcome.
 
 | Feature | Original backend (dead) | HTC Revive serves it from |
 |---|---|---|
@@ -16,12 +20,15 @@ app's original protocol, and redirects the dead hostnames to them.
 
 ## Requirements
 
-- HTC One M7 on Sense 5 / Android 4.2.2. Other Sense 5 devices may work but are untested.
+- An HTC phone running Sense 5 on Android 4.2 or later (`minSdkVersion` 17). Sense 5.5 and 6
+  are untested.
 - Root (`su`). S-ON is fine: changes to `/system` are re-applied at every boot.
+- An ARMv7 CPU (every Sense 5 phone has one).
 
 ## Install and use
 
-1. Install `HtcRevive.apk` and open **HTC Revive**.
+1. Download `HtcRevive.apk` from the latest [release](../../releases/latest), install it and
+   open **HTC Revive**.
 2. Tick **Revive HTC services** and grant root.
 3. Weather, Stocks and BlinkFeed refresh as usual. For BlinkFeed, pick your topics in
    BlinkFeed's own settings.
