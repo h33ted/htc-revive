@@ -1,0 +1,6 @@
+[ext]
+basicConstraints=CA:FALSE
+keyUsage=critical,digitalSignature,keyEncipherment
+extendedKeyUsage=serverAuth
+subjectAltName=DNS:geo-prism.htcsense.com,DNS:img-prism.htcsense.com,DNS:log-prism.htcsense.com
+authorityKeyIdentifier=keyid

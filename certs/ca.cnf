@@ -1,0 +1,12 @@
+[req]
+distinguished_name=dn
+prompt=no
+x509_extensions=v3_ca
+[dn]
+CN=HtcRevive Local CA
+O=HtcRevive
+[v3_ca]
+basicConstraints=critical,CA:TRUE,pathlen:0
+keyUsage=critical,keyCertSign,cRLSign
+subjectKeyIdentifier=hash
+nameConstraints=permitted;DNS:htcsense.com,permitted;DNS:.htcsense.com,permitted;DNS:accu-weather.com,permitted;DNS:.accu-weather.com
