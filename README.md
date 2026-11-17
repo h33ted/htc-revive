@@ -7,7 +7,8 @@ phone. No PC, proxy server or API key needed.
 
 > **Tested only on an HTC One M7 (Sense 5, Android 4.2.2).** Other Sense 5 devices (One mini,
 > One max, Butterfly s, ...) ship the same Weather, BlinkFeed and Stocks apps and should work,
-> but haven't been tried. Reports welcome.
+> but haven't been tried. Sense 5 on Android 4.3, whose Weather app switched to HTTPS, is
+> supported from v1.0.3 but not yet tested on a device. Reports welcome.
 
 | Feature | Original backend (dead) | HTC Revive serves it from |
 |---|---|---|
@@ -20,7 +21,7 @@ app's original protocol, and redirects the dead hostnames to them.
 
 ## Requirements
 
-- An HTC phone running Sense 5 on Android 4.2 or later (`minSdkVersion` 17). Sense 5.5 and 6
+- An HTC phone running Sense 5 on Android 4.2 or 4.3 (`minSdkVersion` 17). Sense 5.5 and 6
   are untested.
 - Root (`su`). S-ON is fine: changes to `/system` are re-applied at every boot.
 - An ARMv7 CPU (every Sense 5 phone has one).
@@ -42,7 +43,7 @@ In the app:
 
 - **Redirects**: adds the dead hostnames to `/system/etc/hosts` (pointing at `127.0.0.1`) and
   adds `iptables` rules redirecting loopback `:80`/`:443` to the local servers.
-- **Local HTTPS**: BlinkFeed talks HTTPS, so the app installs its own local CA into the
+- **Local HTTPS**: BlinkFeed (and Weather on 4.3) talks HTTPS, so the app installs its own local CA into the
   user trust store. The CA is **name-constrained** to `htcsense.com` and `accu-weather.com`,
   so it can't be used to impersonate any other site. Each build generates its own CA
   (`tools/gen-certs.sh`). Private keys are never committed.
