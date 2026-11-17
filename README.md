@@ -8,7 +8,7 @@ phone. No PC, proxy server or API key needed.
 > **Tested only on an HTC One M7 (Sense 5, Android 4.2.2).** Other Sense 5 devices (One mini,
 > One max, Butterfly s, ...) ship the same Weather, BlinkFeed and Stocks apps and should work,
 > but haven't been tried. Sense 5 on Android 4.3, whose Weather app switched to HTTPS, is
-> supported from v1.0.3 but not yet tested on a device. Reports welcome.
+> supported from v1.0.4 but not yet tested on a device. Reports welcome.
 
 | Feature | Original backend (dead) | HTC Revive serves it from |
 |---|---|---|
