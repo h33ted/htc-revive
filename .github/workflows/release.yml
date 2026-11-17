@@ -62,6 +62,9 @@ jobs:
           mkdir -p certs
           echo "$SIGNING_KEYSTORE_B64" | base64 -d > certs/release.keystore
           echo "$LOCAL_CA_B64" | base64 -d | tar -xz
+          # The secret is key material; the committed cert configs must win over any copies in it,
+          # so host-list changes in leaf.cnf get a re-issued server cert.
+          git checkout -- certs/ca.cnf certs/leaf.cnf
 
       - name: Build native TLS library
         run: cd jni && "$ANDROID_HOME/ndk/$NDK_VERSION/ndk-build" -j"$(nproc)"
