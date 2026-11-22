@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.htcrevive.legacy"
+    android:versionCode="1"
+    android:versionName="1.0">
+
+    <!-- Sense 1/2 phones (e.g. HTC Wildfire on Android 2.2). -->
+    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="8" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:label="HTC Revive"
+        android:icon="@drawable/ic_launcher">
+
+        <activity android:name="com.htcrevive.LegacyActivity" android:label="HTC Revive">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service android:name="com.htcrevive.LegacyService" android:exported="false" />
+
+        <receiver android:name="com.htcrevive.LegacyBootReceiver">
+            <intent-filter android:priority="1000">
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

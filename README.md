@@ -19,6 +19,17 @@ phone. No PC, proxy server or API key needed.
 The stock HTC apps stay untouched. HTC Revive runs small local servers that speak each
 app's original protocol, and redirects the dead hostnames to them.
 
+### Older phones (Sense 1/2, Android 2.2+)
+
+**`HtcReviveLegacy.apk`** in each release does the same for early Sense phones. It's tested on
+an **HTC Wildfire (Android 2.2.1)**, where the Weather app and widget and the Stocks app and
+widget work again. Their dead backends are `htc.accuweather.com` (an older AccuWeather API) and
+the same `api.htc.go.yahoo.com` as Sense 5. Like the main app it needs root; it doesn't need a
+local CA, since these apps only use plain HTTP. It uses the phone's own theme; press **Menu** for
+the request log. A "My location" weather widget still needs the phone to have a location fix;
+widgets set to a city work right away. Other Sense 1/2 phones (Desire, Legend, Hero on 2.2, ...)
+probably use the same APIs but are untested. News Reader isn't covered yet.
+
 ## Requirements
 
 - An HTC phone running Sense 5 on Android 4.2 or 4.3 (`minSdkVersion` 17). Sense 5.5 and 6
@@ -61,6 +72,7 @@ In the app:
 No Gradle or Android SDK install is needed. You need:
 - JDK 11+ and `openssl` on `PATH`
 - a tools directory with `android-17.jar`, `aapt2` (or `aapt2.exe`), `r8.jar` and `apksig.jar`
+  (on Windows, use R8 8.5 or later: the D8 in build-tools 34 crashes there on some classes)
 - Android NDK r23c, for the native TLS library
 
 ```bash
@@ -73,6 +85,17 @@ TOOLS=/path/to/tools ./build.sh
 
 The first build generates your own local CA, server certificate and signing key under
 `certs/` (all ignored by git).
+
+The legacy APK also needs `android-8.jar` (SDK platform 8) in the tools directory and NDK r13b
+for the ARMv6 TLS library:
+
+```bash
+cd legacy/jni && $NDK_R13B/ndk-build && cd ../..
+```
+
+```bash
+TOOLS=/path/to/tools legacy/build.sh
+```
 
 ## Credits and license
 

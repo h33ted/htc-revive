@@ -11,3 +11,6 @@
 /assets/ca.pem
 /assets/ca.hash
 /assets/server.p12
+/legacy/build/
+/legacy/obj/
+/legacy/libs/

@@ -97,7 +97,10 @@ public final class Https {
             if (n < 0) break;
             off += n;
         }
-        return off == len ? buf : java.util.Arrays.copyOf(buf, off);
+        if (off == len) return buf;
+        byte[] part = new byte[off];  // not Arrays.copyOf: the legacy build targets Android 2.2 (API 8)
+        System.arraycopy(buf, 0, part, 0, off);
+        return part;
     }
 
     private static byte[] readToEnd(InputStream in) throws IOException {

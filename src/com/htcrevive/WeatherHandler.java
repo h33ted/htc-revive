@@ -230,7 +230,7 @@ final class WeatherHandler implements MiniHttp.Handler {
         return r == null ? new JSONArray() : r;
     }
 
-    private static JSONObject firstGeocode(String name) throws Exception {
+    static JSONObject firstGeocode(String name) throws Exception {
         JSONArray r = geocode(name, 1);
         if (r.length() == 0) {
             Log.w(MiniHttp.TAG, "geocode found nothing for " + name);

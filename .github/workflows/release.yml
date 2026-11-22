@@ -1,4 +1,5 @@
-# Builds HtcRevive.apk on every push to main and publishes it as a GitHub release.
+# Builds HtcRevive.apk (Sense 5) and HtcReviveLegacy.apk (Sense 1/2, Android 2.2+) on every push
+# to main and publishes both as a GitHub release.
 #
 # Required repository secrets (so every release has the same signature and local CA, and
 # installs as an upgrade over the previous one):
@@ -79,12 +80,35 @@ jobs:
           test -f libs/armeabi-v7a/librevivetls.so
           unzip -l HtcRevive.apk | grep -q lib/armeabi-v7a/librevivetls.so
 
+      # Legacy build for Sense 1/2 phones on Android 2.2+ (armeabi). sdkmanager no longer offers
+      # the 2.2 platform or NDK r13b, so fetch them from Google's repository directly.
+      - name: Install SDK platform 8 and NDK r13b
+        run: |
+          cd "$RUNNER_TEMP"
+          curl -sSfLO https://dl.google.com/android/repository/android-2.2_r03.zip
+          curl -sSfLO https://dl.google.com/android/repository/android-ndk-r13b-linux-x86_64.zip
+          unzip -q android-2.2_r03.zip
+          unzip -q android-ndk-r13b-linux-x86_64.zip
+          ln -s "$RUNNER_TEMP"/android-2.2_r03-*/android.jar "$RUNNER_TEMP/tools/android-8.jar"
+
+      - name: Build legacy native TLS library
+        run: cd legacy/jni && "$RUNNER_TEMP/android-ndk-r13b/ndk-build" -j"$(nproc)"
+
+      - name: Build legacy APK
+        env:
+          TOOLS: ${{ runner.temp }}/tools
+          VERSION_CODE: ${{ github.run_number }}
+          VERSION_NAME: 1.0.${{ github.run_number }}
+        run: |
+          bash legacy/build.sh
+          unzip -l legacy/HtcReviveLegacy.apk | grep -q lib/armeabi/librevivetls.so
+
       - name: Publish release
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: v1.0.${{ github.run_number }}
         run: |
-          gh release create "$TAG" HtcRevive.apk \
+          gh release create "$TAG" HtcRevive.apk legacy/HtcReviveLegacy.apk \
             --target "$GITHUB_SHA" \
             --title "HTC Revive $TAG" \
             --generate-notes
